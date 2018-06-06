@@ -13,8 +13,9 @@ public class Main {
 		produce.start();
 		consumer.start();
 		
-		produce.join();
-		consumer.join();
+		Thread.sleep(10*1000);
+//		produce.join();
+//		consumer.join();
 	}
 
 }

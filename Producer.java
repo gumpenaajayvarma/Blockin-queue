@@ -21,22 +21,24 @@ public class Producer extends Thread{
 	}
 
 	private void insert(int value) {
-		queueList.add(value);
-		System.out.println(value+ " enqueued");
+		if(queueList.size()<20) {
+			queueList.add(value);
+			System.out.println(value+ " enqueued");
+		}else {
+			System.out.println("Waiting for consumer...");
+		}
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			System.out.println("Producer interrupted");
+		}
 	}
 
 	public void produce() throws InterruptedException {
-		// TODO Auto-generated method stub
 		int value =0;
 		while(true) {
-			synchronized(this) {
-				//Producer cannot fill the queue if it is full
-				while(queueList.size()==10) {
-						wait();
-				}
 				insert(value++);
-				notify();
-			}
 		}
 	}
 

@@ -17,20 +17,24 @@ public class Consumer extends Thread{
 
 	private void consume() throws InterruptedException {
 		while(true) {
-			synchronized(this) {
-				while(produce.queueList.isEmpty()) {
-					wait();
-				}
-				
-				dequeue();
-				
-				notify();
-			}
+			dequeue();
+			
 		}
 	}
 
 	private void dequeue() {
-		int dequedElement = produce.queueList.remove(0);
-		System.out.println(dequedElement+" dequeued");
+		int dequedElement;
+		if(!produce.queueList.isEmpty()) {
+			dequedElement = produce.queueList.remove(0);
+			System.out.println(dequedElement+" dequeued");
+		}else {
+			System.out.println("Waiting for producer...");
+		}
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			System.out.println("Thread interrupted");
+		}
 	}
 }
